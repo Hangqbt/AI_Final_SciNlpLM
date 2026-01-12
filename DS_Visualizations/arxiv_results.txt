@@ -1,0 +1,16 @@
+
+Histogram saved to 'arxiv_abstract_lengths.png'
+
+--- DATASET STATISTICS (Copy these to your report) ---
+                   count        mean        std  ...    50%     75%    max
+label                                            ...
+Bioinformatics     310.0  178.183871  48.205417  ...  176.5  216.75  278.0
+Materials Science  310.0  176.190323  41.712910  ...  171.0  207.00  278.0
+Neuroscience       310.0  190.258065  50.723610  ...  192.5  226.75  434.0
+
+[3 rows x 8 columns]
+
+NOTE: 42 papers have more than 256 words.
+Percentage of truncated data: 4.52%
+
+Process finished with exit code 0

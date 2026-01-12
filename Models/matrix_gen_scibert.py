@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 
 # --- CONFIGURATION ---
 MODEL_PATH = "./final_scibert_champion"  # This is the saved model from run_scibert.py
-DATA_FILE = "clean_dataset.csv"  # We test on the Springer data (or change to arxiv_dataset.csv)
+DATA_FILE = "arxiv_dataset.csv"  # We test on the Springer data (or change to arxiv_dataset.csv)
 OUTPUT_IMAGE = "confusion_matrix_scibert.png"
 
 

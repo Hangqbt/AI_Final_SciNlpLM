@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns  # Optional, makes the plot look much more professional
 
 # --- CONFIGURATION ---
-FILE_PATH = "clean_dataset.csv"
-OUTPUT_IMAGE = "abstract_lengths.png"
+FILE_PATH = "arxiv_dataset.csv"
+OUTPUT_IMAGE = "arxiv_abstract_lengths.png"
 
 
 def main():
@@ -47,7 +47,7 @@ def main():
         )
 
     # 5. Add Labels and Titles (Mandatory for Reports)
-    plt.title('Distribution of Abstract Lengths by Scientific Field', fontsize=16)
+    plt.title('Distribution of Abstract Lengths by Scientific Field (Springer)', fontsize=16)
     plt.xlabel('Number of Words', fontsize=12)
     plt.ylabel('Frequency (Number of Papers)', fontsize=12)
     plt.legend(title='Field')

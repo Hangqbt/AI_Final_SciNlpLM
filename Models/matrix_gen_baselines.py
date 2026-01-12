@@ -8,7 +8,7 @@ from collections import Counter
 import os
 
 # --- CONFIGURATION ---
-MODEL_TYPE = "TextCNN"  # Change to "Bi-LSTM" as needed
+MODEL_TYPE = "Bi-LSTM"  # Change to "Bi-LSTM" as needed
 MODEL_PATH = f"final_{MODEL_TYPE}_champion.pth"
 
 # 1. ALWAYS build vocab from Training Data (Springer)
