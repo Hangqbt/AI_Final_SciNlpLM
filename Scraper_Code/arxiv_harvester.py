@@ -11,7 +11,7 @@ QUERIES = {
 }
 
 TARGET_PER_CLASS = 310
-OUTPUT_FILE = "arxiv_dataset.csv"
+OUTPUT_FILE = "Models/arxiv_dataset.csv"
 
 data = []
 

@@ -9,8 +9,8 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trai
 
 # --- CONFIGURATION ---
 MODEL_NAME = "allenai/scibert_scivocab_uncased"
-FILE_PATH = "clean_dataset.csv"
-OUTPUT_EXCEL = "scibert_experiment_results_with_time.xlsx"
+FILE_PATH = "arxiv_dataset.csv"
+OUTPUT_EXCEL = "scibert_experiment_arxiv_results.xlsx"
 SEEDS = [50, 100, 150]
 
 
