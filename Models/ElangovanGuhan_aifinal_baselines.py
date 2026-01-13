@@ -149,6 +149,8 @@ class TextCNN(nn.Module):
         x = self.embedding(x)
 
         # Here we add the channel dimension
+        # This basically tricks Conv2d to treat the text like its a grayscale image with height being the sequence length
+        # and width being the embedding dimension
         x = x.unsqueeze(1)
 
 
