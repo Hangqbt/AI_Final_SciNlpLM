@@ -6,13 +6,13 @@ from sklearn.metrics import confusion_matrix
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer
 from torch.utils.data import Dataset
 
-# --- CONFIGURATION ---
+# We fix the optimal model of SciBERT to use along with the dataset to test on and the output image name
 MODEL_PATH = "./final_scibert_champion"  # This is the saved model from run_scibert.py
 DATA_FILE = "arxiv_dataset.csv"  # We test on the Springer data (or change to arxiv_dataset.csv)
 OUTPUT_IMAGE = "confusion_matrix_scibert.png"
 
 
-# --- DATA SETUP ---
+# Here we do the same data setup done in the main model code
 class ScienceDataset(Dataset):
     def __init__(self, encodings, labels):
         self.encodings = encodings
@@ -25,13 +25,13 @@ class ScienceDataset(Dataset):
 
     def __len__(self): return len(self.labels)
 
-
+# This is the main code that runs the test and generates the matrix
 def main():
     print("Loading Model and Data...")
 
-    # 1. Load Data
+    # We load the data here
     df = pd.read_csv(DATA_FILE)
-    # Ensure ID mapping matches training
+    # We map the labels to the id and ensure the dataset is consistent in doing that
     label_map = {'Neuroscience': 0, 'Bioinformatics': 1, 'Materials Science': 2}
     if df['label_id'].dtype == 'object':
         df['label_id'] = df['label'].map(label_map)
@@ -39,7 +39,7 @@ def main():
     X = df['text'].tolist()
     y_true = df['label_id'].tolist()
 
-    # 2. Load Saved Model
+    # We load the saved model here
     try:
         tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
         model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)
@@ -47,7 +47,7 @@ def main():
         print(f"Error: Could not find model at {MODEL_PATH}. Did you run training yet?")
         return
 
-    # 3. Inference
+    # We finally do the inference here
     print("Running Inference...")
     encodings = tokenizer(X, truncation=True, padding=True, max_length=256)
     dataset = ScienceDataset(encodings, y_true)
@@ -56,11 +56,11 @@ def main():
     preds = trainer.predict(dataset)
     y_pred = preds.predictions.argmax(-1)
 
-    # 4. Generate Confusion Matrix
+    # We generate the matrix here
     print("Generating Plot...")
     cm = confusion_matrix(y_true, y_pred)
 
-    # Plotting
+    # We plot it here and save the output
     plt.figure(figsize=(8, 6))
     sns.heatmap(
         cm,

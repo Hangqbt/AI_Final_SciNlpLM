@@ -7,20 +7,21 @@ from sklearn.metrics import confusion_matrix
 from collections import Counter
 import os
 
-# --- CONFIGURATION ---
-MODEL_TYPE = "Bi-LSTM"  # Change to "Bi-LSTM" as needed
+# we select the model type and its optimal checkpoint for testing
+MODEL_TYPE = "Bi-LSTM"
+# NOTE: The type can be changed to Either "Bi-LSTM" or "TextCNN"
 MODEL_PATH = f"final_{MODEL_TYPE}_champion.pth"
 
-# 1. ALWAYS build vocab from Training Data (Springer)
+# We use the springer dataset to build the vocabulary
 TRAIN_FILE = "clean_dataset.csv"
 
-# 2. Choose which file to Plot (Springer OR arxiv)
+# We select the testing dataset and the output image name here
 TARGET_FILE = "arxiv_dataset.csv"  # <--- CHANGE THIS to plot different matrices
 OUTPUT_IMAGE = f"confusion_matrix_{MODEL_TYPE}_{TARGET_FILE.split('_')[0]}.png"
 MAX_LEN = 256
 
 
-# --- ARCHITECTURES (Must match exactly) ---
+# This contains the same Baseline architectures found in the main code
 class TextCNN(nn.Module):
     def __init__(self, vocab_size, embed_dim=100, num_classes=3):
         super().__init__()
@@ -48,7 +49,7 @@ class BiLSTM(nn.Module):
         return self.fc(torch.cat((h[-2], h[-1]), dim=1))
 
 
-# --- UTILS ---
+# This helper function, helps us build the vocab
 def build_vocab(texts, max_words=20000):
     c = Counter()
     for t in texts: c.update(str(t).lower().split())
@@ -66,21 +67,21 @@ def preprocess(text, vocab):
     return torch.tensor(token_ids).unsqueeze(0)
 
 
-# --- MAIN ---
+# This is the main function that runs the code and generates the matrix
 def main():
     print(f"Generating Plots for {MODEL_TYPE} on {TARGET_FILE}...")
 
-    # 1. Build Vocab from TRAIN FILE (Critical!)
+    # We build the vocab here
     print(f"Building Vocab from {TRAIN_FILE}...")
     df_train = pd.read_csv(TRAIN_FILE)
     vocab = build_vocab(df_train['text'].values)
     print(f"Vocab size: {len(vocab)}")
 
-    # 2. Load TARGET Data
+    # We load the target data (springer)
     print(f"Loading Target Data from {TARGET_FILE}...")
     df_target = pd.read_csv(TARGET_FILE)
 
-    # Map labels
+    # We map the labels to indexes
     label_map = {'Neuroscience': 0, 'Bioinformatics': 1, 'Materials Science': 2}
     if df_target['label_id'].dtype == 'object':
         df_target['label_id'] = df_target['label'].map(label_map)
@@ -88,7 +89,7 @@ def main():
     X = df_target['text'].values
     y_true = df_target['label_id'].values
 
-    # 3. Load Model
+    # We load the model here
     model = TextCNN(len(vocab)) if MODEL_TYPE == "TextCNN" else BiLSTM(len(vocab))
     if not os.path.exists(MODEL_PATH):
         print(f"Error: {MODEL_PATH} not found.")
@@ -96,7 +97,7 @@ def main():
     model.load_state_dict(torch.load(MODEL_PATH))
     model.eval()
 
-    # 4. Inference
+    # We run the inference heres
     y_pred = []
     print("Running Inference...")
     with torch.no_grad():
@@ -106,7 +107,7 @@ def main():
             pred = outputs.argmax(1).item()
             y_pred.append(pred)
 
-    # 5. Plot
+    # We finally plot the matrix here
     cm = confusion_matrix(y_true, y_pred)
     plt.figure(figsize=(8, 6))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Reds', xticklabels=label_map.keys(), yticklabels=label_map.keys())
