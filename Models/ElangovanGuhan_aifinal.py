@@ -8,6 +8,10 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
 
+##########################
+# This is the main testing code for the SciBERT Model
+##########################
+
 # Here we initialize variables to determine the model that is going to be used,
 # the datasets used for training adn testing and the name of the output file
 

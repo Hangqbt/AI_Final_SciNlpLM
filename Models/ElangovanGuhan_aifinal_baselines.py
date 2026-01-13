@@ -11,6 +11,9 @@ import random
 import os
 import time
 
+##########################
+# This is the main testing code for the baseline Models
+##########################
 
 # We fix the file paths for the datasets and the output file here
 TRAIN_FILE = "clean_dataset.csv"
