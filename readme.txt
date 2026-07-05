@@ -1,7 +1,4 @@
 
-
-
-
 Hello Professor!
 
 Below is the list of all the main files and their purpose clearly labeled for your reference!
