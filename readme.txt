@@ -1,3 +1,15 @@
+# Project Report
+Click the image below to read the full assignment report:
+
+[![Report Preview](link_to_your_screenshot.png)](link_to_your_uploaded_pdf.pdf)
+
+
+
+
+
+
+
+
 Hello Professor!
 
 Below is the list of all the main files and their purpose clearly labeled for your reference!
